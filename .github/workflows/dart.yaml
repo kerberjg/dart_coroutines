@@ -11,10 +11,8 @@ on:
       - './*.yaml'
       - .github/workflows/dart.yaml
       - .github/actions/flutter-setup/**
-  releases:
+  release:
     types: [published]
-    branches:
-      - 'release/**'
 
 
 jobs:
