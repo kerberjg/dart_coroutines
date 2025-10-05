@@ -135,4 +135,26 @@ void main() {
     executor.runCoroutine(myCoroutine); // value null, coroutine finished
     expect(executor.countCoroutines, equals(0));
   });
+
+  test('correctly reports whether a coroutine is running', () {
+    final executor = CoroutineExecutor();
+
+    CoroutineValue<int> myCoroutine() sync* {
+      int counter = 1;
+      yield counter;
+      counter = 2;
+      yield counter;
+    }
+
+    expect(executor.isCoroutineRunning(myCoroutine), isFalse);
+
+    executor.runCoroutine(myCoroutine); // value 1
+    expect(executor.isCoroutineRunning(myCoroutine), isTrue);
+
+    executor.runCoroutine(myCoroutine); // value 2
+    expect(executor.isCoroutineRunning(myCoroutine), isTrue);
+
+    executor.runCoroutine(myCoroutine); // value null, coroutine finished
+    expect(executor.isCoroutineRunning(myCoroutine), isFalse);
+  });
 }

@@ -43,6 +43,13 @@ mixin class CoroutineExecutor {
     }
   }
 
+  /// Returns whether a coroutine is currently running
+  ///
+  bool isCoroutineRunning(Coroutine coroutine) {
+    final int id = coroutine.hashCode;
+    return _runningCoroutines.containsKey(id);
+  }
+
   @pragma('vm:always-consider-inlining')
   T? _stepCoroutine<T>(int id, CoroutineInstance<T> instance) {
     final bool hasNext = instance.moveNext();
