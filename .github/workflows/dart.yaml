@@ -74,7 +74,7 @@ jobs:
         run: dart pub get
 
       - name: Run tests
-        run: dart test --reporter=expanded
+        run: dart test --reporter=expanded test/*.dart
 
   publish:
     name: "publish"
