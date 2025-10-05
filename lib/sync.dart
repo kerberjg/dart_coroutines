@@ -15,6 +15,7 @@ mixin class CoroutineExecutor {
     _getOrAddCoroutine(coroutine);
   }
 
+  @pragma('vm:always-consider-inlining')
   Iterator<T> _getOrAddCoroutine<T>(Coroutine<T> coroutine) {
     final int id = coroutine.hashCode;
     if (_runningCoroutines[id] == null) {
