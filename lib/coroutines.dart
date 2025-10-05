@@ -12,23 +12,23 @@ mixin class CoroutineExecutor {
   /// Adds a coroutine to the executor without starting it
   /// Does nothing if the coroutine is already running
   void addCoroutine(Coroutine coroutine) {
+    _getOrAddCoroutine(coroutine);
+  }
+
+  Iterator<T> _getOrAddCoroutine<T>(Coroutine<T> coroutine) {
     final int id = coroutine.hashCode;
     if (_runningCoroutines[id] == null) {
       _runningCoroutines[id] = coroutine().iterator;
     }
+
+    return _runningCoroutines[id]! as Iterator<T>;
   }
 
   /// Starts or continues a coroutine
   /// It starts or continues its execution depending on its current state
   /// If the coroutine is paused, it resumes execution from the last yield point
   T? runCoroutine<T>(Coroutine<T> coroutine) {
-    final int id = coroutine.hashCode;
-    if (_runningCoroutines[id] == null) {
-      _runningCoroutines[id] = coroutine().iterator;
-    }
-
-    final Iterator<T> instance = _runningCoroutines[id]! as Iterator<T>;
-
+    final Iterator<T> instance = _getOrAddCoroutine(coroutine);
     return _stepCoroutine(instance);
   }
 
