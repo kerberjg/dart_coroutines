@@ -2,12 +2,16 @@ library coroutines;
 
 typedef CoroutineValue<T> = Iterable<T>;
 typedef Coroutine<T> = CoroutineValue<T> Function();
+typedef CoroutineInstance<T> = Iterator<T>;
 
 mixin class CoroutineExecutor {
   /// Map of running coroutines
   /// Key: coroutine hash
   /// Value: coroutine instance
-  final Map<int, Iterator> _runningCoroutines = {};
+  final Map<int, CoroutineInstance> _runningCoroutines = {};
+
+  /// The count of running coroutines
+  int get countCoroutines => _runningCoroutines.length;
 
   /// Adds a coroutine to the executor without starting it
   /// Does nothing if the coroutine is already running
@@ -16,39 +20,38 @@ mixin class CoroutineExecutor {
   }
 
   @pragma('vm:always-consider-inlining')
-  Iterator<T> _getOrAddCoroutine<T>(Coroutine<T> coroutine) {
+  CoroutineInstance<T> _getOrAddCoroutine<T>(Coroutine<T> coroutine) {
     final int id = coroutine.hashCode;
     if (_runningCoroutines[id] == null) {
       _runningCoroutines[id] = coroutine().iterator;
     }
 
-    return _runningCoroutines[id]! as Iterator<T>;
+    return _runningCoroutines[id]! as CoroutineInstance<T>;
   }
 
   /// Starts or continues a coroutine
   /// It starts or continues its execution depending on its current state
   /// If the coroutine is paused, it resumes execution from the last yield point
   T? runCoroutine<T>(Coroutine<T> coroutine) {
-    final Iterator<T> instance = _getOrAddCoroutine(coroutine);
-    return _stepCoroutine(instance);
+    return _stepCoroutine(coroutine.hashCode, _getOrAddCoroutine(coroutine));
   }
 
   /// Continues all coroutines in this executor
   void runAllCoroutines() {
-    for (final instance in _runningCoroutines.values) {
-      _stepCoroutine(instance);
+    for (final id in _runningCoroutines.keys) {
+      _stepCoroutine(id, _runningCoroutines[id]!);
     }
   }
 
   @pragma('vm:always-consider-inlining')
-  T? _stepCoroutine<T>(Iterator<T> instance) {
+  T? _stepCoroutine<T>(int id, CoroutineInstance<T> instance) {
     final bool hasNext = instance.moveNext();
 
     if (hasNext) {
       return instance.current;
     } else {
       // coroutine has finished execution
-      _runningCoroutines.remove(instance.hashCode);
+      _runningCoroutines.remove(id);
       return null;
     }
   }
@@ -63,7 +66,4 @@ mixin class CoroutineExecutor {
   void stopAllCoroutines() {
     _runningCoroutines.clear();
   }
-
-  /// The count of running coroutines
-  int get countCoroutines => _runningCoroutines.length;
 }

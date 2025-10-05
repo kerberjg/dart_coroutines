@@ -115,4 +115,24 @@ void main() {
     expect(counterA, equals(2));
     expect(counterB, equals(4));
   });
+
+  test('finished coroutine is removed from running coroutines', () {
+    final executor = CoroutineExecutor();
+
+    CoroutineValue<int> myCoroutine() sync* {
+      int counter = 1;
+      yield counter;
+      counter = 2;
+      yield counter;
+    }
+
+    expect(executor.countCoroutines, equals(0));
+
+    executor.runCoroutine(myCoroutine); // value 1
+    expect(executor.countCoroutines, equals(1));
+
+    executor.runCoroutine(myCoroutine); // value 2
+    executor.runCoroutine(myCoroutine); // value null, coroutine finished
+    expect(executor.countCoroutines, equals(0));
+  });
 }
