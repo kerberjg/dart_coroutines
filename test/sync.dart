@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:coroutines/coroutines.dart';
+import 'package:coroutines/sync.dart';
 
 void main() {
   group('Coroutine', () {
