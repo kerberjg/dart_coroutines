@@ -15,8 +15,8 @@ mixin class CoroutineExecutor {
 
   /// Adds a coroutine to the executor without starting it
   /// Does nothing if the coroutine is already running
-  void addCoroutine(Coroutine coroutine) {
-    _getOrAddCoroutine(coroutine);
+  void addCoroutine<T>(Coroutine<T> coroutine) {
+    _getOrAddCoroutine<T>(coroutine);
   }
 
   @pragma('vm:always-consider-inlining')
