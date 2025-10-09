@@ -157,4 +157,15 @@ void main() {
     executor.runCoroutine(myCoroutine); // value null, coroutine finished
     expect(executor.isCoroutineRunning(myCoroutine), isFalse);
   });
+
+  test('concurrent modifications do not cause exceptions', () async {
+    final executor = CoroutineExecutor();
+
+    final futures = <Future>[];
+
+    futures.add((() async => executor.addCoroutine(() sync* {}))());
+    futures.add((() async => executor.runAllCoroutines())());
+
+    await Future.wait(futures);
+  });
 }

@@ -38,7 +38,8 @@ mixin class CoroutineExecutor {
 
   /// Continues all coroutines in this executor
   void runAllCoroutines() {
-    for (final id in _runningCoroutines.keys) {
+    final ids = _runningCoroutines.keys.toSet();
+    for (final id in ids) {
       _stepCoroutine(id, _runningCoroutines[id]!);
     }
   }
