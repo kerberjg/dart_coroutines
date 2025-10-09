@@ -38,8 +38,9 @@ mixin class CoroutineExecutor {
 
   /// Continues all coroutines in this executor
   void runAllCoroutines() {
-    for (final id in _runningCoroutines.keys) {
-      _stepCoroutine(id, _runningCoroutines[id]!);
+    final entries = _runningCoroutines.entries.toSet();
+    for (final MapEntry(key: id, :value) in entries) {
+      _stepCoroutine(id, value);
     }
   }
 
