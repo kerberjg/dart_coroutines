@@ -157,4 +157,26 @@ void main() {
     await executor.runCoroutine(myCoroutine); // value null, coroutine finished
     expect(executor.isCoroutineRunning(myCoroutine), isFalse);
   });
+
+  test("doesn't step the coroutine until await is used", () async {
+    final executor = CoroutineExecutor();
+
+    int counter = 0;
+    CoroutineAsyncValue<int> myCoroutine() async* {
+      counter = 1;
+      yield counter;
+      counter = 2;
+      yield counter;
+      counter = 3;
+      yield counter;
+    }
+
+    expect(counter, equals(0));
+
+    final future = executor.runCoroutine(myCoroutine);
+    expect(counter, equals(0));
+
+    await future;
+    expect(counter, equals(1));
+  });
 }
