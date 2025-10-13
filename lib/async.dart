@@ -26,12 +26,9 @@ mixin class CoroutineExecutor {
     final int id = coroutine.hashCode;
     if (_runningCoroutines[id] == null) {
       final stream = coroutine();
-      print(stream.runtimeType);
       _runningCoroutines[id] = StreamIterator<T>(stream);
     }
 
-    CoroutineAsyncInstance instance = _runningCoroutines[id]!;
-    print(instance.runtimeType);
     return _runningCoroutines[id]! as CoroutineAsyncInstance<T>;
   }
 
