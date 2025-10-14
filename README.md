@@ -1,6 +1,14 @@
 # coroutines
 Unity-style Coroutines for Flutter/Dart, implementing resumable functions.
 
+<!-- Badges -->
+[![pub package](https://img.shields.io/pub/v/coroutines.svg)](https://pub.dev/packages/coroutines)
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](LICENSE)
+[![build](https://github.com/kerberjg/dart_coroutines/actions/workflows/package.yaml/badge.svg)](https://github.com/kerberjg/dart_coroutines/actions/workflows/package.yaml)
+[![examples](https://github.com/kerberjg/dart_coroutines/actions/workflows/examples.yaml/badge.svg)](https://github.com/kerberjg/dart_coroutines/actions/workflows/examples.yaml)
+[![stars](https://img.shields.io/github/stars/kerberjg/dart_coroutines.svg)](https://github.com/kerberjg/dart_coroutines/stargazers)
+
+
 # Features
 - Lightweight and easy to use
 - Supports both synchronous and asynchronous coroutines
