@@ -1,0 +1,16 @@
+name: base
+description: A sample command-line application with basic argument parsing.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.9.0
+
+# Add regular dependencies here.
+dependencies:
+  coroutines:
+    path: ../../
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
