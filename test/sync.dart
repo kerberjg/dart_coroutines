@@ -168,4 +168,40 @@ void main() {
 
     await Future.wait(futures);
   });
+
+  test('can be nested', () {
+    final executor = CoroutineExecutor();
+
+    CoroutineValue<bool> innerCoroutine() sync* {
+      yield false;
+      yield false;
+      yield true;
+    }
+
+    CoroutineValue<int> outerCoroutine() sync* {
+      bool canRun = false;
+      while (!canRun) {
+        canRun = executor.runCoroutine(innerCoroutine) ?? false;
+        if (!canRun) {
+          yield 0;
+        }
+      }
+
+      yield 100;
+    }
+
+    int value = -1;
+
+    // value 0
+    value = executor.runCoroutine(outerCoroutine) ?? -1;
+    expect(value, equals(0));
+
+    // value 0
+    value = executor.runCoroutine(outerCoroutine) ?? -1;
+    expect(value, equals(0));
+
+    // value 100
+    value = executor.runCoroutine(outerCoroutine) ?? -1;
+    expect(value, equals(100));
+  });
 }
