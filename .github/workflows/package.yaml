@@ -1,0 +1,40 @@
+name: "Package"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'release/**'
+    paths:
+      - '**.dart'
+      - './*.yaml'
+      - .github/workflows/package.yaml
+  release:
+    types: [published]
+
+
+# call the base workflow with the package path
+jobs:
+  dart:
+    uses: ./.github/workflows/_base-dart.yaml
+    with:
+      path: ${{ github.workspace }} 
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [dart]
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: "Get dependencies"
+        run: dart pub get
+
+      - name: Publish to pub.dev
+        env:
+          PUB_DEV_TOKEN: ${{ secrets.PUB_DEV_TOKEN }}
+        run: dart pub publish --force
