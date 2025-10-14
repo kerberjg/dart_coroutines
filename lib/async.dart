@@ -1,5 +1,3 @@
-library coroutines;
-
 import 'dart:async';
 
 typedef CoroutineAsyncValue<T> = Stream<T>;

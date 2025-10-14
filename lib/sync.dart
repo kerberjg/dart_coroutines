@@ -1,5 +1,3 @@
-library coroutines;
-
 typedef CoroutineValue<T> = Iterable<T>;
 typedef Coroutine<T> = CoroutineValue<T> Function();
 typedef CoroutineInstance<T> = Iterator<T>;
