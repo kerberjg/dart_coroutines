@@ -1,0 +1,24 @@
+name: "examples"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'release/**'
+    paths:
+      - 'examples/**/*.dart'
+      - 'examples/**/*.yaml'
+      - .github/workflows/examples.yaml
+  release:
+    types: [published]
+
+jobs:
+  dart:
+    strategy:
+      matrix:
+        example: [ base ]
+    name: "${{ matrix.example }}"
+    uses: ./.github/workflows/_base-dart.yaml
+    with:
+      path: "examples/${{ matrix.example }}"
