@@ -1,4 +1,4 @@
-name: "Package"
+name: "package"
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ jobs:
   dart:
     uses: ./.github/workflows/_base-dart.yaml
     with:
-      path: ${{ github.workspace }} 
+      path: '.'
 
   publish:
     runs-on: ubuntu-latest
