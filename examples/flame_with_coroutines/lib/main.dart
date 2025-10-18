@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:coroutines/coroutines.dart';
+import 'package:coroutines/sync.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
