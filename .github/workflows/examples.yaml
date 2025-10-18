@@ -19,7 +19,7 @@ jobs:
   dart:
     strategy:
       matrix:
-        example: [ base ]
+        example: [ base, flame_with_coroutines ]
     name: "${{ matrix.example }}"
     uses: ./.github/workflows/_base-flutter.yaml
     with:
