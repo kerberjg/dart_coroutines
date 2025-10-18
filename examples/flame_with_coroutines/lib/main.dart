@@ -17,7 +17,7 @@ class SquaresCoroutineGame extends FlameGame {
   @override
   Future<void> onLoad() async {
     await world.addAll([
-      for (var i = 0; i < 1; i++) SquareCoroutine(),
+      for (var i = 0; i < 10; i++) SquareCoroutine(),
     ]);
     await super.onLoad();
   }
