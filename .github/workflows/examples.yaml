@@ -20,6 +20,6 @@ jobs:
       matrix:
         example: [ base ]
     name: "${{ matrix.example }}"
-    uses: ./.github/workflows/_base-dart.yaml
+    uses: ./.github/workflows/_base-flutter.yaml
     with:
       path: "examples/${{ matrix.example }}"
