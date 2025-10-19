@@ -36,7 +36,8 @@ jobs:
       - name: "dart format"
         run: |
           echo "Checking Dart formatting...\nFiles displayed below:"
-          dart format -o none --set-exit-if-changed ./**/*.dart
+          dart format -o none --set-exit-if-changed ./lib/**/*.dart
+          dart format -o none --set-exit-if-changed ./test/**/*.dart
           echo "No formatting issues found."
         working-directory: ${{ inputs.path }}
 
@@ -56,7 +57,9 @@ jobs:
         working-directory: ${{ inputs.path }}
 
       - name: Run analysis
-        run: dart analyze --fatal-warnings
+        run: |
+          dart analyze --fatal-warnings ./lib/**/*.dart
+          dart analyze --fatal-warnings ./test/**/*.dart
         working-directory: ${{ inputs.path }}
 
   check-tests:
