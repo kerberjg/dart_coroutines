@@ -10,6 +10,7 @@ on:
     paths:
       - 'examples/**/*.dart'
       - 'examples/**/*.yaml'
+      - .github/workflows/_base-flutter.yaml
       - .github/workflows/examples.yaml
   release:
     types: [published]
