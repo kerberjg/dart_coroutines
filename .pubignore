@@ -1,1 +1,3 @@
 .github/
+.dart_tool/
+build/
