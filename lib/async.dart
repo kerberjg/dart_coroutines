@@ -39,8 +39,9 @@ mixin class CoroutineExecutor {
 
   /// Continues all coroutines in this executor
   Future<void> runAllCoroutines() async {
-    for (final id in _runningCoroutines.keys) {
-      await _stepCoroutine(id, _runningCoroutines[id]!);
+    final entries = _runningCoroutines.entries.toSet();
+    for (final MapEntry(key: id, :value) in entries) {
+      await _stepCoroutine(id, value);
     }
   }
 
