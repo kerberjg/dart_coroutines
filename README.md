@@ -1,5 +1,5 @@
 # coroutines
-Unity-style Coroutines for Flutter/Dart, implementing resumable functions.
+Resumable functions for Flutter/Dart (Unity-style)
 
 <!-- Badges -->
 [![pub package](https://img.shields.io/pub/v/coroutines.svg)](https://pub.dev/packages/coroutines)
