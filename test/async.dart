@@ -169,6 +169,42 @@ void main() {
     await Future.wait(futures);
   });
 
+  test('can be nested', () async {
+    final executor = CoroutineExecutor();
+
+    CoroutineAsyncValue<bool> innerCoroutine() async* {
+      yield false;
+      yield false;
+      yield true;
+    }
+
+    CoroutineAsyncValue<int> outerCoroutine() async* {
+      bool canRun = false;
+      while (!canRun) {
+        canRun = await executor.runCoroutine(innerCoroutine) ?? false;
+        if (!canRun) {
+          yield 0;
+        }
+      }
+
+      yield 100;
+    }
+
+    int value = -1;
+
+    // value 0
+    value = await executor.runCoroutine(outerCoroutine) ?? -1;
+    expect(value, equals(0));
+
+    // value 0
+    value = await executor.runCoroutine(outerCoroutine) ?? -1;
+    expect(value, equals(0));
+
+    // value 100
+    value = await executor.runCoroutine(outerCoroutine) ?? -1;
+    expect(value, equals(100));
+  });
+
   test("doesn't step the coroutine until await is used", () async {
     final executor = CoroutineExecutor();
 
