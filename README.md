@@ -14,15 +14,22 @@ Unity-style Coroutines for Flutter/Dart, implementing resumable functions.
 - Supports both synchronous and asynchronous coroutines
 - Can be easily integrated into existing Flutter/Dart applications
 
+<!-- TODO(kerberjg): Insert a warning about usability and provide links to recommended practices -->
+
 # Installation
 Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  coroutines: ^0.1.0
+  coroutines: ^0.2.1
 ```
 
 # Examples
+
+- [Flutter, coroutine on button press](#with-widgets)
+- ~Flutter, coroutine every frame~ (coming soon!)
+- [Flame game engine](examples/flame_with_coroutines/lib/main.dart) by @luanpotter
+- ~Fluorite game engine~ (coming soon!)
 
 ## With widgets
 
