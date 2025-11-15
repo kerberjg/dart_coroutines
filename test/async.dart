@@ -158,6 +158,17 @@ void main() {
     expect(executor.isCoroutineRunning(myCoroutine), isFalse);
   });
 
+  test('concurrent modifications do not cause exceptions', () async {
+    final executor = CoroutineExecutor();
+
+    final futures = <Future>[];
+
+    futures.add((() async => executor.addCoroutine(() async* {}))());
+    futures.add((() async => executor.runAllCoroutines())());
+
+    await Future.wait(futures);
+  });
+
   test("doesn't step the coroutine until await is used", () async {
     final executor = CoroutineExecutor();
 
